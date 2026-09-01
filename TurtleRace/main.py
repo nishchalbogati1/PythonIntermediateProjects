@@ -4,13 +4,13 @@ import random
 
 screen = Screen()
 turtle.colormode(255)
-tim_1 = Turtle()
-tim_2 = Turtle()
-tim_3 = Turtle()
-tim_4 = Turtle()
-tim_5 = Turtle()
-turtles = [tim_1, tim_2, tim_3, tim_4, tim_5]
-colors = ["red", "green", "blue", "yellow", "purple"]
+screen.setup(width=500, height=500)
+colors = ["red", "orange", "green", "blue", "yellow", "purple"]
+turtles = []
+
+def create_turtles():
+    for _ in range(6):
+        turtles.append(Turtle())
 
 def speed(turtles):
     for turtle in turtles:
@@ -20,18 +20,26 @@ def speed(turtles):
         turtle.color(turtle_color)
         turtle.penup()
 
-screen.setup(width=500, height=500)
+def starting_position():
+    y = [0, 40, -40, 80, -80, 120]
+    for turtle,y in zip(turtles,y):
+        turtle.goto(-200, y)
+
+
+user_bet = screen.textinput(title="Make your bet", prompt="Which turtle will win the race? ").lower()
+
+if user_bet:
+    is_on = True
+else:
+    is_on = False
+
+create_turtles()
 speed(turtles)
-is_on = True
-user_bet = screen.textinput(title="Make your bet", prompt="Which turtle will win the race? ")
-tim_1.goto(-225,0)
-tim_2.goto(-225,50)
-tim_3.goto(-225,-50)
-tim_4.goto(-225,100)
-tim_5.goto(-225,-100)
+starting_position()
+
 while is_on:
     for turtle in turtles:
-        turtle.forward(random.randrange(10, 20, 5))
+        turtle.forward(random.randint(1, 10))
         if turtle.xcor() >= 225:
             winner = turtle
             is_on = False
